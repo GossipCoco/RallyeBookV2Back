@@ -198,34 +198,6 @@ const ChapterCharacter = connection.define(
     },
     { freezeTableName: true, timestamps: false }
   );
-  const NovelChapter = connection.define(
-    "NovelChapter",
-    {
-      Id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-  
-  const NovelKind = connection.define(
-    "NovelKind",
-    {
-      Id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-    },
-    { freezeTableName: true, timestamps: false }
-  );
-
-
-  User.belongsTo(Level, { foreignKey: "LevelId" })
-  Level.hasMany(Role)
-
-  User.belongsTo(Role,{ foreignKey: "RoleId" })
-  Role.hasMany(User)
 
   Novel.belongsTo(User, { foreignKey: "UserId" })
   User.hasMany(Novel)
@@ -244,50 +216,3 @@ const ChapterCharacter = connection.define(
 
   Chapter.belongsTo(TypeChapter, { foreignKey: "TypeChapterId" })
   TypeChapter.hasMany(Chapter)
-
-  NovelCharacter.belongsTo(Novel, { foreignKey: "NovelId" })
-  Novel.hasMany(NovelCharacter)
-
-  NovelCharacter.belongsTo(Character, { foreignKey: "CharacterId" })
-  Character.hasMany(NovelCharacter)
-
-  ChapterCharacter.belongsTo(Novel, { foreignKey: "ChapterId" })
-  Novel.hasMany(ChapterCharacter)
-
-  ChapterCharacter.belongsTo(Character, { foreignKey: "CharacterId" })
-  Character.hasMany(ChapterCharacter)
-
-  NovelChapter.belongsTo(Novel, { foreignKey: "NovelId" })
-  Novel.hasMany(NovelChapter)
-  
-  NovelChapter.belongsTo(Chapter, { foreignKey: "ChapterId" })
-  Chapter.hasMany(NovelChapter)
-
-
-  NovelKind.belongsTo(Novel, { foreignKey: "NovelId" })
-  Novel.hasMany(NovelKind)
-  
-  NovelKind.belongsTo(Kind, { foreignKey: "KindId" })
-  Kind.hasMany(NovelKind)
-
-
-  const models = {
-    User,
-    Level,
-    Role,
-    TypeChapter,
-    TypeNovel,
-    Kind,
-    Rating,
-    Character,
-    Chapter,
-    Novel,
-    ChapterCharacter,
-    NovelCharacter,
-    NovelChapter,
-    Utils: {
-      Op,
-      sequelize,
-    },
-  };
-  module.exports = models;

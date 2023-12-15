@@ -209,16 +209,6 @@ const ChapterCharacter = connection.define(
     { freezeTableName: true, timestamps: false }
   );
   
-  const NovelKind = connection.define(
-    "NovelKind",
-    {
-      Id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-    },
-    { freezeTableName: true, timestamps: false }
-  );
 
 
   User.belongsTo(Level, { foreignKey: "LevelId" })
@@ -262,13 +252,6 @@ const ChapterCharacter = connection.define(
   
   NovelChapter.belongsTo(Chapter, { foreignKey: "ChapterId" })
   Chapter.hasMany(NovelChapter)
-
-
-  NovelKind.belongsTo(Novel, { foreignKey: "NovelId" })
-  Novel.hasMany(NovelKind)
-  
-  NovelKind.belongsTo(Kind, { foreignKey: "KindId" })
-  Kind.hasMany(NovelKind)
 
 
   const models = {

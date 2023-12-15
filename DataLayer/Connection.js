@@ -4,7 +4,7 @@ const { Sequelize } = require('sequelize')
 // const connectionConfig = config
 // console.log(connectionConfig)
 const connection = new Sequelize(
-    'WritingOrganizer',
+    'WrittingPlanner',
     //'WritingOrganizer',
     'sa',
     '23031983',
