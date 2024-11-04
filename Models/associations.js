@@ -21,7 +21,7 @@ const {
 } = require('./index');
 
 User.belongsTo(Level, { foreignKey: "LevelId" })
-Level.hasMany(Role)
+Level.hasMany(User)
 
 User.belongsTo(Role,{ foreignKey: "RoleId" })
 Role.hasMany(User)
@@ -36,7 +36,7 @@ Novel.belongsTo(TypeNovel, { foreignKey: "TypeNovelId" })
 TypeNovel.hasMany(Novel)
 
 Novel.belongsTo(Rating, { foreignKey: "RatingId" })
-User.hasMany(Novel)
+Rating.hasMany(Novel)
 
 Chapter.belongsTo(User, { foreignKey: "UserId" })
 User.hasMany(Chapter)

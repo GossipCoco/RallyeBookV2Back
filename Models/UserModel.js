@@ -21,19 +21,22 @@ const User = connection.define(
       Email: {
         type: DataTypes.STRING,
       },
-      Password: {
+      Pwd: {
         type: DataTypes.STRING,
       },
-      UserName: {
+      Username: {
         type: DataTypes.STRING,
       },
       Avatar: {
         type: DataTypes.STRING,
       },
-      Birthday: {
+      Background: {
         type: DataTypes.DATE,
       },
       Inscription: {
+        type: DataTypes.DATE,
+      },
+      Birthday: {
         type: DataTypes.DATE,
       },
       LastConnexion: {

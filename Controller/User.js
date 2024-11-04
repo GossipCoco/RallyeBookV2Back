@@ -1,46 +1,54 @@
 const jwt = require('jsonwebtoken');
 const queries = require('../Queries/User.js')
-const config = require("../Config/auth.config.js");
-const models = require('../DataLayer/Models.js')
+const config = require("../Config/db.config");
 const { handleResponse } = require('../Functions/handleResponse.js');
 const User = {};
 
 User.GellAllUsers = (req, res) => {
-    handleResponse(res, query.GetAllUsers(req.body))
+    handleResponse(res, queries.GellAllUsers(req.body))
 }
 
-User.Login = (req, res, next) => {
-    console.log(req.body);
-    userApi.SetJWT(req.body)
-    .then(w => {
-        console.log(w)
-        res.send({ob: w, res: true}).status(200)
+User.Login = (req, res) => {
+    console.log(req.body)
+    const Login = req.body.username
+    const Pwd = req.body.Password
+    queries.GetUserByUserName(Login)
+    .then(user => {        
+        console.log("user controller", user)
+        if (!user) {
+          return res.status(404).send({ message: 'User Not Found.' });
+        }
+        if (Pwd !== req.body.Pwd) {
+          return res.status(401).send({ message: 'Invalid Password!' });
+        }
+    console.log("config : ", config)
+    const result = {
+        usrID: user.Id,
+        Email: user.Email,
+        isSuccess: true,
+        tocken: null,
+        role: user.Role.Id,
+        expire: config.JWT.expire
+      }
+      console.log("result :", result)
+      const token = jwt.sign({ id: user.Id }, config.JWT.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      result.tocken = token
+      console.log("result :", result)
+      queries.UpdateLastDateConnection(user.Id, user.Email)
+      .then(response => {
+        console.log("UpdateLastDateConnection : ", response)
+        res.status(200).send(result);
+      })
+      .catch(err => {
+        console.log("Login : ", err);
+        res.status(500).send(err);
+      });      
     })
     .catch(err => {
-        console.log(err)
-        res.send(err).status(500)
-    })
-    // model.User
-    // .findOne({ where: { Login: req.body.Login } })
-    // .then(user => {
-    //     if(user === null) {
-    //         res.send({ error: 'Utilisateur non trouvé', res: false }).status(401)
-    //     }else{
-    //         try {
-    //             if(req.body.Password === user.Password){
-    //                 const sendingToken = { Id: user.Id, token: jwt.sign({ Id: user.Id }, config.secret , { expiresIn: '48h' }) };
-    //                 console.log(sendingToken)
-    //                 res.send(sendingToken).status(200);
-    //             }
-    //             else
-    //                 res.send({ error: 'Mot de passe incorrect', res: false }).status(401);
-    //         }
-    //         catch (error) {
-    //             console.log(error);
-    //             res.send({ error, pathTo: 'logout', res: false }).status(401);
-    //         }
-    //     }
-    // })
-    // .catch(err => res.send({ error: err, pathTo: 'logout', res: false }).status(500));
+      console.log("ERREUR LOGIN :", err);
+      res.status(500).send(err);
+    });
 }
 module.exports = User
