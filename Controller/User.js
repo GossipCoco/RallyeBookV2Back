@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
-const queries = require('../DataLayer/Queries')
+const queries = require('../Queries/User.js')
 const config = require("../Config/auth.config.js");
 const models = require('../DataLayer/Models.js')
-
+const { handleResponse } = require('../Functions/handleResponse.js');
 const User = {};
 
+User.GellAllUsers = (req, res) => {
+    handleResponse(res, query.GetAllUsers(req.body))
+}
 
 User.Login = (req, res, next) => {
     console.log(req.body);

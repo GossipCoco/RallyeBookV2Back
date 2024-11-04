@@ -4,5 +4,7 @@ const User = require('../Controller/User')
 
 const router = express.Router();
 
-router
-    .post('/login', User.Login)
+router    
+    .post('/GellAllUsers', User.GellAllUsers)
+
+    module.exports = router

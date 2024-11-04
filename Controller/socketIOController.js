@@ -1,5 +1,5 @@
 const SocketIO = require("socket.io")
-const queries = require('../DataLayer/Queries')
+
 let io = {}
 const message = "Bienvenue sur l'application de révision"
 

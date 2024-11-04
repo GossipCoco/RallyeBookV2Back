@@ -9,26 +9,26 @@ const http = require("http");
 const app = express();
 
 const Home = require("./Routes/Home");
-// const User = require('./Routes/User')
+const User = require("./Routes/User")
 
-const corsOptions = {
-    cors: {
-      origin: [
+const corsOptions = {origin: [
         "http://localhost:8085",
-        "http://192.168.1.10:8085",
+        "http://192.168.1.14:8085",
       ],
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["gossipCoco"],
-      credentials: true,
-    },
+      cors: {
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true
+      }
   };
   
 app
+.use('*', cors(corsOptions))
 .use(bodyParser.urlencoded({ limit: "50mb", extended: true }))
 .use(bodyParser.json({ limit: "50mb", extended: true }))
 .use(cors())
 .use("/", Home)
-// .use('/', User)
+.use('/User', User)
 .use(function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.status(404).send({ result: 'error' });

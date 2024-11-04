@@ -1,34 +1,34 @@
 const { Sequelize } = require('sequelize')
-// const config = require('../../config')
-
-// const connectionConfig = config
-// console.log(connectionConfig)
-const connection = new Sequelize(    {
-        "username": "sa",
-        "password": '23031983',
-        "database": "WritingPlanner",
-        "host": "localhost",
-        "dialect": "mssql",
-        dialectOptions: {
-            options: {
-                encrypt: true, // Si nécessaire pour votre configuration MSSQL
-            }
-        },        
-        options: {
-            instanceName: 'sqlexpress'
-        }
-    },
-)
-connection
-    .authenticate()
-    .then((err) => {
-        // console.log(err)
-        // connection.sync({force: true})
-        // .catch(err => console.log('err connect bdd : ', err))
-        console.log('Back end Connection successfull')
-    })
-    .catch(err => console.log('Disconnect'))
-
-module.exports = connection
-
-
+const config = require('../Config/db.config');
+class Database {
+    constructor() {
+      if (!Database.instance) {
+        this._init();
+        Database.instance = this;
+      }
+  
+      return Database.instance;
+    }
+  
+    _init() {
+      this.connection = new Sequelize(config.BDD.SQLServer);
+  
+      this.connection
+        .authenticate()
+        .then(() => {
+          console.log('Back end Connection successful');
+        })
+        .catch(err => {
+          console.log('Error connecting to the database:', err);
+        });
+    }
+  
+    getConnection() {
+      return this.connection;
+    }
+  }
+  
+  const instance = new Database();
+  Object.freeze(instance);
+  
+  module.exports = instance.getConnection(); // Exporte directement l'instance Sequelize
