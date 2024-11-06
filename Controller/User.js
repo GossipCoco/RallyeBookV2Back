@@ -7,7 +7,9 @@ const User = {};
 User.GellAllUsers = (req, res) => {
     handleResponse(res, queries.GellAllUsers(req.body))
 }
-
+User.GetUserById = (req, res) => {
+  handleResponse(res, queries.GetUserById(req. params.id))
+}
 User.Login = (req, res) => {
     console.log(req.body)
     const Login = req.body.username

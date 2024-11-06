@@ -2,6 +2,16 @@ const { v4: uuidv4 } = require('uuid');
 const model = require('../Models');
 require('../Models/associations');
 const { Op } = require("sequelize");
+const GetUserById = (id) =>{
+    console.log("****GetUserById User ****", id)
+    return model.User.findOne({
+        where: { Id : id },
+        include:[
+            { model: model.Role },
+            { model: model.Level }
+        ]
+    })
+}
 const GetUserByUserName = (username) => {
     console.log("****GetUserByUserName User ****", username)
     return model.User.findOne({
@@ -29,6 +39,7 @@ const UpdateLastDateConnection = (usr) => {
         .catch(err => { console.log("ERROR UpdateLastDateConnection : ", err) })
 }
 module.exports = {
+    GetUserById,
     GellAllUsers,
     GetUserByUserName,
     UpdateLastDateConnection
