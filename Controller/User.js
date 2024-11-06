@@ -11,19 +11,16 @@ User.GetUserById = (req, res) => {
   handleResponse(res, queries.GetUserById(req. params.id))
 }
 User.Login = (req, res) => {
-    console.log(req.body)
     const Login = req.body.username
     const Pwd = req.body.Password
     queries.GetUserByUserName(Login)
     .then(user => {        
-        console.log("user controller", user)
         if (!user) {
           return res.status(404).send({ message: 'User Not Found.' });
         }
         if (Pwd !== req.body.Pwd) {
           return res.status(401).send({ message: 'Invalid Password!' });
         }
-    console.log("config : ", config)
     const result = {
         usrID: user.Id,
         Email: user.Email,
@@ -39,8 +36,7 @@ User.Login = (req, res) => {
       result.tocken = token
       console.log("result :", result)
       queries.UpdateLastDateConnection(user.Id, user.Email)
-      .then(response => {
-        console.log("UpdateLastDateConnection : ", response)
+      .then(() => {
         res.status(200).send(result);
       })
       .catch(err => {

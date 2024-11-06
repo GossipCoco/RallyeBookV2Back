@@ -1,5 +1,4 @@
-const { DataTypes, sequelize, Op } = require("sequelize");
-const Sequelize = require('sequelize');
+const { DataTypes } = require("sequelize");
 const connection = require('../DataLayer/Connection');
 
 const User = connection.define(
