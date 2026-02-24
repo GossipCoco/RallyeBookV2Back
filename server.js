@@ -14,6 +14,8 @@ const User = require("./Routes/User")
 const corsOptions = {origin: [
         "http://localhost:8085",
         "http://192.168.1.14:8085",
+        'http://192.168.1.22:8085',
+        'http://192.168.1.12:8085'
       ],
       cors: {
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
